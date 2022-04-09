@@ -1,13 +1,19 @@
 package ar.edu.unahur.obj2.semillas
 
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 
-class SemillasTest : DescribeSpec ({
+class SemillasTest : DescribeSpec({
     // hay una clase Planta que tiene por atributos
     // anioSemilla, altura
     describe("Creación de las plantas") {
         val menta = Menta(1.0, 2021)
         val mentita = Menta(0.3, 2021)
         val soja = Soja(0.6, 2009)
+        val quinoa = Quinoa(0.2, 2010, 0.2)
+        val quinoa2 = Quinoa(0.1, 2006, 0.9)
 
         it("probamos los atributos altura  y anioSemilla") {
             menta.altura.shouldBe(1.0)
@@ -18,6 +24,8 @@ class SemillasTest : DescribeSpec ({
             menta.daSemillas().shouldBeTrue()
             mentita.daSemillas().shouldBeFalse()
             soja.daSemillas().shouldBeFalse()
+            quinoa.daSemillas().shouldBeTrue()
+            quinoa2.daSemillas().shouldBeTrue()
         }
 
         it("es fuerte") {
