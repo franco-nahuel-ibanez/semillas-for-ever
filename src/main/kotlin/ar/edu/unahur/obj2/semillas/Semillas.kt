@@ -37,5 +37,4 @@ class Soja(altura: Double, anioSemilla: Int): Planta (altura, anioSemilla){
 
 class Quinoa (altura: Double, anioSemilla: Int): Planta (altura, anioSemilla) {
 
-
 }
