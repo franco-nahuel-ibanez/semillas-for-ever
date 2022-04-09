@@ -1,37 +1,41 @@
 package ar.edu.unahur.obj2.semillas
 
-class Menta(var altura: Double, val anioSemilla: Int) {
-    fun espacio(): Double {
-        TODO("Te la debo, amigue...")
+
+open class Planta(var altura: Double, val anioSemilla: Int) {
+
+    object Constates {
+        val UMBRAL_HORAS_SOL = 9
     }
 
-    fun daSemillas(): Boolean {
-        TODO("Colgue, che...")
-    }
+    open fun esFuerte(): Boolean = horasSolToleradas() > Planta.Constates.UMBRAL_HORAS_SOL
 
-    fun esFuerte(): Boolean {
-        TODO("Estas seguro que lo queres implementar así?")
-    }
+    open fun horasSolToleradas(): Int = 0
+
+    open fun daSemillas(): Boolean = esFuerte()
+}
+
+class Menta(altura: Double, anioSemilla: Int): Planta(altura, anioSemilla){
+
+    override fun horasSolToleradas(): Int = 7
+
+    fun espacio()= altura + 1.0
+
+    override fun daSemillas() =  super.daSemillas() or (altura > 0.4)
+
 
 }
 
-class Soja(var altura: Double, val anioSemilla: Int) {
-    fun espacio(): Double {
-        TODO("Lee un poco más el enunciado...")
-    }
+class Soja(altura: Double, anioSemilla: Int): Planta (altura, anioSemilla){
 
-    fun daSemillas(): Boolean {
-        TODO("Dalee")
-    }
+    fun espacio(): Double = altura/2
 
-    fun esFuerte(): Boolean {
-        TODO("Así me implementas mejor")
-    }
+    override fun daSemillas() = super.daSemillas() or (anioSemilla > 2007 && altura > 0.75 && altura < 0.9)
+
+    override fun horasSolToleradas() = if (altura < 0.5) (6) else if (altura < 1) (8) else(12)
+
 }
 
-class Planta(var altura: Double, val anioSemilla: Int) {
-    fun espacio() {
-        TODO("Pasaron cosas")
-    }
+class Quinoa (altura: Double, anioSemilla: Int): Planta (altura, anioSemilla) {
+
 
 }
