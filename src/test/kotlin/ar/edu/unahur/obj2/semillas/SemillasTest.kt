@@ -1,10 +1,12 @@
 package ar.edu.unahur.obj2.semillas
 
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.shouldThrowAny
+import io.kotest.assertions.throwables.shouldThrowMessage
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 
 class SemillasTest : DescribeSpec({
     // hay una clase Planta que tiene por atributos
@@ -51,6 +53,14 @@ class SemillasTest : DescribeSpec({
                 mentita.espacio()
             ).sum()
             Math.ceil(superficie).shouldBe(4)
+
+        }
+
+        it("error"){
+            val exception = shouldThrow<IllegalAccessException> {
+                error("algo salio mal")
+            }
+            exception.message.shouldBe("algo salio mal")
         }
     }
 })
@@ -68,10 +78,12 @@ class ParcelaTesdt : DescribeSpec({
         parcela1.puedePlantar(quinoa)
 
 
-        it ("Probamos si entra soja2"){
-            parcela1.puedePlantar(soja2).shouldBe("No puede ser plantada")
-
+        it("Debe emitir un error si se intenta superar el maximo de plantas"){
+            shouldThrowAny{
+                parcela1.puedePlantar(soja2)
+            }
         }
+
         it ("Probamos maximo de plantas en la parcelas"){
             parcela1.cantMaxima().shouldBe(4)
 
