@@ -1,6 +1,8 @@
 package ar.edu.unahur.obj2.semillas
 
-open class Planta(var altura: Double, val anioSemilla: Int) {
+import kotlin.math.ceil
+
+abstract class Planta(var altura: Double, val anioSemilla: Int) {
 
     object Constates {
         val UMBRAL_HORAS_SOL = 9
@@ -11,7 +13,11 @@ open class Planta(var altura: Double, val anioSemilla: Int) {
     open fun horasSolToleradas(): Int = 0
 
     open fun daSemillas(): Boolean = esFuerte()
+
+    abstract fun resultaIdeal(unaParcela: Parcela): Boolean
+
 }
+
 
 open class Menta(altura: Double, anioSemilla: Int): Planta(altura, anioSemilla){
 
@@ -21,6 +27,7 @@ open class Menta(altura: Double, anioSemilla: Int): Planta(altura, anioSemilla){
 
     override fun daSemillas() =  super.daSemillas() or (altura > 0.4)
 
+    override fun resultaIdeal(unaParcela: Parcela) = unaParcela.superficie() > 6
 
 }
 
@@ -32,6 +39,8 @@ open class Soja(altura: Double, anioSemilla: Int): Planta (altura, anioSemilla){
 
     override fun horasSolToleradas() = if (altura < 0.5) (6) else if (altura < 1) (8) else(12)
 
+    override fun resultaIdeal(unaParcela: Parcela) = unaParcela.horasDeSol == horasSolToleradas()
+
 }
 
 class Quinoa (altura: Double, anioSemilla: Int, val espacio: Double): Planta (altura, anioSemilla) {
@@ -40,11 +49,15 @@ class Quinoa (altura: Double, anioSemilla: Int, val espacio: Double): Planta (al
     override fun daSemillas() = super.daSemillas() or (anioSemilla > 2000 && anioSemilla < 2009)
 
     override fun horasSolToleradas() = if(espacio < 0.3) 10 else super.horasSolToleradas()
+
+    override fun resultaIdeal(unaParcela: Parcela) = !unaParcela.plantas.any { p -> p.altura > 1.5 }
 }
 
 class SojaTransgenica (altura: Double, anioSemilla: Int): Soja (altura, anioSemilla){
 
     override fun daSemillas() = false
+
+    override fun resultaIdeal(unaParcela: Parcela) = unaParcela.cantMaxima().toInt() == 1
 
 }
 

@@ -14,5 +14,5 @@ class Parcela (val ancho: Double, val largo: Double, val horasDeSol: Int ) {
 
     fun toleraSol(unaPlanta: Planta) = (horasDeSol - unaPlanta.horasSolToleradas()) < 2
 
-    fun puedePlantar(unaPlanta: Planta) = if (hayLugar() && toleraSol(unaPlanta)) plantas.add(unaPlanta) else error("No puede ser plantada")
+    fun puedePlantar(unaPlanta: Planta) = if (hayLugar() or toleraSol(unaPlanta)) plantas.add(unaPlanta) else throw Exception ("No puede ser plantada")
 }

@@ -2,7 +2,6 @@ package ar.edu.unahur.obj2.semillas
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.throwables.shouldThrowAny
-import io.kotest.assertions.throwables.shouldThrowMessage
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -15,6 +14,7 @@ class SemillasTest : DescribeSpec({
         val menta = Menta(1.0, 2021)
         val mentita = Menta(0.3, 2021)
         val soja = Soja(0.6, 2009)
+        val soja3 = Soja(1.2, 2009)
         val quinoa = Quinoa(0.2, 2010, 0.2)
         val quinoa2 = Quinoa(0.1, 2006, 0.9)
         val sojaTrans= SojaTransgenica (0.8, 2009 )
@@ -24,7 +24,12 @@ class SemillasTest : DescribeSpec({
             menta.altura.shouldBe(1.0)
             menta.anioSemilla.shouldBe(2021)
         }
+         it ("Probamos tolerancia al sol"){
+             soja.horasSolToleradas()shouldBe(8)
+             soja3.horasSolToleradas()shouldBe(12)
 
+
+         }
         it("verificar si da semillas") {
             menta.daSemillas().shouldBeTrue()
             mentita.daSemillas().shouldBeFalse()
@@ -63,9 +68,51 @@ class SemillasTest : DescribeSpec({
             exception.message.shouldBe("algo salio mal")
         }
     }
+
+    describe("Probando parcelas ideales") {
+        val menta = Menta(1.0, 2021)
+        val soja = Soja(1.3, 2009)
+        val quinoa = Quinoa(0.2, 2010, 0.2)
+        val sojaTrans= SojaTransgenica (0.8, 2009 )
+        val parcela1 = Parcela(20.0, 1.0, 12)
+        val parcela3 = Parcela(5.0, 1.0, 10)
+        val parcela2 = Parcela(6.0, 7.0, 10)
+        val soja2 = Soja(1.8, 2009)
+
+        parcela1.puedePlantar(menta)
+        parcela1.puedePlantar(soja)
+        parcela1.puedePlantar(quinoa)
+        parcela1.puedePlantar(sojaTrans)
+
+        parcela2.puedePlantar(menta)
+        parcela2.puedePlantar(soja)
+        parcela2.puedePlantar(quinoa)
+        parcela2.puedePlantar(sojaTrans)
+        parcela2.puedePlantar(soja2)
+
+
+        it ("Probar menta") {
+            menta.resultaIdeal(parcela1).shouldBeTrue()
+            menta.resultaIdeal(parcela3).shouldBeFalse()
+
+        }
+        it ("Probar soja") {
+            soja.resultaIdeal(parcela1).shouldBeTrue()
+            soja.resultaIdeal(parcela2).shouldBeFalse()
+
+        }
+        it ("Probar quinoa") {
+            quinoa.resultaIdeal(parcela1).shouldBeTrue()
+            quinoa.resultaIdeal(parcela2).shouldBeFalse()
+        }
+        it ("Probar sojaTrans") {
+            sojaTrans.resultaIdeal(parcela1).shouldBeFalse()
+            sojaTrans.resultaIdeal(parcela3).shouldBeTrue()
+        }
+    }
 })
 
-class ParcelaTesdt : DescribeSpec({
+class ParcelaTest : DescribeSpec({
     describe("Creación Plantas y Parcelas") {
         val soja = Soja(0.6, 2009)
         val soja2 = Soja (1.2, 2010 )
@@ -78,11 +125,11 @@ class ParcelaTesdt : DescribeSpec({
         parcela1.puedePlantar(quinoa)
 
 
-        it("Debe emitir un error si se intenta superar el maximo de plantas"){
-            shouldThrowAny{
-                parcela1.puedePlantar(soja2)
-            }
-        }
+        //it("Debe emitir un error si se intenta superar el maximo de plantas"){
+        //    shouldThrowAny{
+        //        parcela1.puedePlantar(soja2)
+        //    }
+        //}
 
         it ("Probamos maximo de plantas en la parcelas"){
             parcela1.cantMaxima().shouldBe(4)
