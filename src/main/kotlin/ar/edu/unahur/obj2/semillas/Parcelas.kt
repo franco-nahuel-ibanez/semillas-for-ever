@@ -15,6 +15,8 @@ abstract open class Parcela (val ancho: Double, val largo: Double, val horasDeSo
 
     fun puedePlantar(unaPlanta: Planta) = if (hayLugar() or toleraSol(unaPlanta)) plantas.add(unaPlanta) else throw Exception ("No puede ser plantada")
 
+    fun cantPlantas(): Int = plantas.size
+
     abstract open fun seAsociaBien(unaPlanta: Planta): Boolean
 }
 
@@ -25,6 +27,8 @@ class ParcelaEcologica(ancho: Double, largo: Double, horasDeSol: Int): Parcela(a
 class ParcelaIndustrial(ancho: Double, largo: Double, horasDeSol: Int): Parcela(ancho, largo, horasDeSol) {
     override fun seAsociaBien(unaPlanta: Planta) = this.plantas.size <= 2 && unaPlanta.esFuerte()
 }
+
+
 
 
 

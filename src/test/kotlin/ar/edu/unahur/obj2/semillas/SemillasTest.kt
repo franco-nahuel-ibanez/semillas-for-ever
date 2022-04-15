@@ -189,3 +189,34 @@ class ParcelaTest : DescribeSpec({
         }
     }
 })
+
+class IntaTest : DescribeSpec({
+    describe("INTA") {
+        val soja = Soja(0.6, 2009)
+        val menta = Menta(1.0, 2021)
+        val quinoa = Quinoa(0.2, 2010, 0.2)
+        val parcela1 = ParcelaIndustrial(20.0, 1.0, 10)
+        val parcela2 = ParcelaIndustrial(20.0, 1.0, 10)
+        val parcela3 = ParcelaIndustrial(20.0, 1.0, 10)
+        val inta = INTA
+
+        parcela1.puedePlantar(soja)
+        parcela1.puedePlantar(menta)
+        parcela1.puedePlantar(quinoa)
+
+        parcela2.puedePlantar(soja)
+        parcela2.puedePlantar(menta)
+        parcela2.puedePlantar(quinoa)
+
+        inta.agregarParcela(parcela1)
+        inta.agregarParcela(parcela2)
+
+
+        it ("Prueba Plantas Promedio"){
+            inta.promedioPlantas()shouldBe(3)
+
+
+        }
+    }
+})
+
