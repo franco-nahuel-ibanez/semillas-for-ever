@@ -15,4 +15,5 @@ object INTA {
 
     }
 
+    fun parcelaMasSustentable()
 }
