@@ -45,7 +45,6 @@ open class Soja(altura: Double, anioSemilla: Int): Planta (altura, anioSemilla){
 
 class Quinoa (altura: Double, anioSemilla: Int, val espacio: Double): Planta (altura, anioSemilla) {
 
-    var plantas = mutableListOf<Planta>()
     override fun daSemillas() = super.daSemillas() or (anioSemilla > 2000 && anioSemilla < 2009)
 
     override fun horasSolToleradas() = if(espacio < 0.3) 10 else super.horasSolToleradas()

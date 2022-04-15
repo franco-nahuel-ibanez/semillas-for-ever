@@ -1,7 +1,6 @@
 package ar.edu.unahur.obj2.semillas
 
-class Parcela (val ancho: Double, val largo: Double, val horasDeSol: Int ) {
-
+abstract open class Parcela (val ancho: Double, val largo: Double, val horasDeSol: Int ) {
     val plantas = mutableListOf<Planta>()
 
     fun superficie(): Double = ancho * largo
@@ -15,4 +14,18 @@ class Parcela (val ancho: Double, val largo: Double, val horasDeSol: Int ) {
     fun toleraSol(unaPlanta: Planta) = (horasDeSol - unaPlanta.horasSolToleradas()) < 2
 
     fun puedePlantar(unaPlanta: Planta) = if (hayLugar() or toleraSol(unaPlanta)) plantas.add(unaPlanta) else throw Exception ("No puede ser plantada")
+
+    abstract open fun seAsociaBien(unaPlanta: Planta): Boolean
 }
+
+class ParcelaEcologica(ancho: Double, largo: Double, horasDeSol: Int): Parcela(ancho, largo, horasDeSol) {
+    override fun seAsociaBien(unaPlanta: Planta) = !this.tieneComplicaciones() && unaPlanta.resultaIdeal(this)
+}
+
+class ParcelaIndustrial(ancho: Double, largo: Double, horasDeSol: Int): Parcela(ancho, largo, horasDeSol) {
+    override fun seAsociaBien(unaPlanta: Planta) = this.plantas.size <= 2 && unaPlanta.esFuerte()
+}
+
+
+
+
