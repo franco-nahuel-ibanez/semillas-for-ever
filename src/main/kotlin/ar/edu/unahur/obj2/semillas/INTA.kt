@@ -19,7 +19,7 @@ object INTA {
         if( parcela != null) {
             return parcela
         }
-        throw java.lang.RuntimeException("No hay parcelas que satisfagan el criterio")
+        throw java.lang.RuntimeException("No hay parcelas que satisfagan el criterio.")
     }
 }
 
