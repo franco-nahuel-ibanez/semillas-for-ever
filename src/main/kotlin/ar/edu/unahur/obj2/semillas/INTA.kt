@@ -12,9 +12,10 @@ object INTA {
         return cantidadPlantas / max((parcelas.size).toDouble(), 1.0)
     }
 
+
     fun masSustentable(): Parcela{
-        val parcelasConmasDe4Plantas = parcelas.filter { it.plantas.size > 4}
-        val parcela = parcelasConmasDe4Plantas.maxByOrNull { it.porcentajeDeAsociadas() }
+        val parcelasConMasDe4Plantas = parcelas.filter { it.plantas.size > 4}
+        val parcela = parcelasConMasDe4Plantas.maxByOrNull { it.porcentajeDeAsociadas() }
         if( parcela != null) {
             return parcela
         }

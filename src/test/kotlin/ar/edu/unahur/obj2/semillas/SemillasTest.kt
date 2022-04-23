@@ -119,7 +119,6 @@ class SemillasTest : DescribeSpec({
 
     describe("Probando si una planta se asocia bien a una parcela"){
         val menta = Menta(1.0, 2021)
-
         val soja = Soja(0.3, 2009)  // 6 horas
         val quinoa = Quinoa(0.2, 2010, 0.2) //sol:
         val sojaTrans= SojaTransgenica (0.8, 2009 )
@@ -164,9 +163,6 @@ class SemillasTest : DescribeSpec({
             parcelaIndustrial.porcentajeDeAsociadas().shouldBe(50.0)
         }
 
-        it("cantidad de plantas bien asociadas"){
-            parcelaIndustrial.cantidadAsociadas().shouldBe(1)
-        }
 
         it("cantidad de plant totales"){
             parcelaIndustrial.plantas.size.shouldBe(2)
@@ -195,11 +191,9 @@ class ParcelaTest : DescribeSpec({
         parcela1.puedePlantar(quinoa)
 
 
-        //it("Debe emitir un error si se intenta superar el maximo de plantas"){
-        //    shouldThrowAny{
-        //        parcela1.puedePlantar(soja2)
-        //    }
-        //}
+        it("Debe emitir un error si se intenta superar el maximo de plantas"){
+            shouldThrowAny { parcela1.puedePlantar(soja2) }
+        }
 
         it ("Probamos maximo de plantas en la parcelas"){
             parcela1.cantMaxima().shouldBe(4)
@@ -212,50 +206,4 @@ class ParcelaTest : DescribeSpec({
     }
 })
 
-class IntaTest : DescribeSpec({
-    describe("INTA") {
-        val soja = Soja(0.6, 2009)
-        val menta = Menta(1.0, 2021)
-        val quinoa = Quinoa(0.2, 2010, 0.2)
-        val parcela1 = ParcelaIndustrial(20.0, 1.0, 10)
-        val parcela2 = ParcelaIndustrial(20.0, 1.0, 10)
-        val parcela3 = ParcelaIndustrial(20.0, 1.0, 10)
-        val inta = INTA
-
-
-        it ("Una si no hay ninguna parcela deberia retornar 0"){
-            inta.promedioPlantas()shouldBe(0.0)
-        }
-
-        it("Si hay solo una parcela debe retornar la cantidad de plantas que esta tenga"){
-            parcela1.puedePlantar(menta);
-            parcela1.puedePlantar(quinoa);
-
-            inta.agregarParcela(parcela1);
-            inta.promedioPlantas().shouldBe(2.0)
-        }
-
-        it("Si hay 3 parcelas con 3, 2 y 1 planta respectivamente, deberia retornar 2"){
-            inta.parcelas.clear()
-            parcela1.plantas.clear()
-
-            parcela1.puedePlantar(menta)
-            parcela1.puedePlantar(quinoa)
-            parcela1.puedePlantar(soja)
-
-            parcela2.puedePlantar(menta)
-            parcela2.puedePlantar(quinoa)
-
-            parcela3.puedePlantar(menta)
-
-            inta.agregarParcela(parcela1)
-            inta.agregarParcela(parcela2)
-            inta.agregarParcela(parcela3)
-
-            inta.promedioPlantas().shouldBe(2.0)
-        }
-
-
-    }
-})
 
