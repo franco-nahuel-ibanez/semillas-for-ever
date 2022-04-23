@@ -1,19 +1,25 @@
 package ar.edu.unahur.obj2.semillas
 
+import kotlin.math.max
+
 object INTA {
+    val parcelas = mutableListOf<Parcela>()
 
-    val coleccParcela = mutableListOf<Parcela>()
+    fun agregarParcela(unaParcela: Parcela)  = parcelas.add(unaParcela)
 
-    fun agregarParcela(unaParcela: Parcela)  = coleccParcela.add(unaParcela)
-
-    fun promedioPlantas() : Int = totalPlantas() / coleccParcela.size
-
-    fun totalPlantas() : Int {
-
-        val planta = coleccParcela.map { p -> p.plantas.size }
-        return planta.sum()
-
+    fun promedioPlantas(): Double {
+        val cantidadPlantas = parcelas.sumBy { p -> p.plantas.size }
+        return cantidadPlantas / max((parcelas.size).toDouble(), 1.0)
     }
 
-    fun parcelaMasSustentable()
+    fun masSustentable(): Parcela{
+        val parcelasConmasDe4Plantas = parcelas.filter { it.plantas.size > 4}
+        val parcela = parcelasConmasDe4Plantas.maxByOrNull { it.porcentajeDeAsociadas() }
+        if( parcela != null) {
+            return parcela
+        }
+        throw java.lang.RuntimeException("No hay parcelas que satisfagan el criterio")
+    }
 }
+
+

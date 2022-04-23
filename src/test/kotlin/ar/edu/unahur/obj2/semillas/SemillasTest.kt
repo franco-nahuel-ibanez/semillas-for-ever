@@ -127,27 +127,49 @@ class SemillasTest : DescribeSpec({
         val parcelaIndustrial = ParcelaIndustrial(6.0, 7.0, 10)
         val soja2 = Soja(1.8, 2009)
 
-        parcelaEcologica.puedePlantar(menta)
-        parcelaEcologica.puedePlantar(soja)
-        parcelaEcologica.puedePlantar(quinoa)
-
-        parcelaIndustrial.puedePlantar(sojaTrans)
-
+        it("una parcela sin plantas debe retornar 0% de platas bien asociadas"){
+            parcelaEcologica.porcentajeDeAsociadas().shouldBe(0.0)
+            parcelaIndustrial.porcentajeDeAsociadas().shouldBe(0.0)
+        }
 
         it("probando parcelas ecologicas"){
+            parcelaEcologica.puedePlantar(menta)
+            parcelaEcologica.puedePlantar(soja)
+            parcelaEcologica.puedePlantar(quinoa)
+
             parcelaEcologica.seAsociaBien(menta).shouldBeTrue()
             parcelaEcologica.seAsociaBien(soja).shouldBeTrue()
             parcelaEcologica.seAsociaBien(quinoa).shouldBeTrue()
         }
 
-        it("la quinoa no debe asociarse bien si hay una planta de altura mayor a 1.5"){
+        it("si todas las plantas se asocian bien, el porcentaje debe ser 100%"){
+            parcelaEcologica.porcentajeDeAsociadas().shouldBe(100.0)
+        }
+
+        it(" en una parcela ecologica la quinoa no debe asociarse bien si hay una planta de altura mayor a 1.5"){
             parcelaEcologica.puedePlantar(soja2)
+            parcelaEcologica.seAsociaBien(soja2).shouldBeFalse()
             parcelaEcologica.seAsociaBien(quinoa).shouldBeFalse()
         }
 
         it("probando parcelas industriales"){
+            parcelaIndustrial.puedePlantar(sojaTrans)
+            parcelaIndustrial.puedePlantar(quinoa)
+
             parcelaIndustrial.seAsociaBien(menta).shouldBeFalse()
             parcelaIndustrial.seAsociaBien(quinoa).shouldBeTrue()
+        }
+
+        it("En una parcela industrial con una plata que se asocia bien y otra que no, el porcentaje debe ser 50%"){
+            parcelaIndustrial.porcentajeDeAsociadas().shouldBe(50.0)
+        }
+
+        it("cantidad de plantas bien asociadas"){
+            parcelaIndustrial.cantidadAsociadas().shouldBe(1)
+        }
+
+        it("cantidad de plant totales"){
+            parcelaIndustrial.plantas.size.shouldBe(2)
         }
 
         it("si hay mas de 2 plantas, la quiona no se asocia bien "){
@@ -200,23 +222,40 @@ class IntaTest : DescribeSpec({
         val parcela3 = ParcelaIndustrial(20.0, 1.0, 10)
         val inta = INTA
 
-        parcela1.puedePlantar(soja)
-        parcela1.puedePlantar(menta)
-        parcela1.puedePlantar(quinoa)
 
-        parcela2.puedePlantar(soja)
-        parcela2.puedePlantar(menta)
-        parcela2.puedePlantar(quinoa)
-
-        inta.agregarParcela(parcela1)
-        inta.agregarParcela(parcela2)
-
-
-        it ("Prueba Plantas Promedio"){
-            inta.promedioPlantas()shouldBe(3)
-
-
+        it ("Una si no hay ninguna parcela deberia retornar 0"){
+            inta.promedioPlantas()shouldBe(0.0)
         }
+
+        it("Si hay solo una parcela debe retornar la cantidad de plantas que esta tenga"){
+            parcela1.puedePlantar(menta);
+            parcela1.puedePlantar(quinoa);
+
+            inta.agregarParcela(parcela1);
+            inta.promedioPlantas().shouldBe(2.0)
+        }
+
+        it("Si hay 3 parcelas con 3, 2 y 1 planta respectivamente, deberia retornar 2"){
+            inta.parcelas.clear()
+            parcela1.plantas.clear()
+
+            parcela1.puedePlantar(menta)
+            parcela1.puedePlantar(quinoa)
+            parcela1.puedePlantar(soja)
+
+            parcela2.puedePlantar(menta)
+            parcela2.puedePlantar(quinoa)
+
+            parcela3.puedePlantar(menta)
+
+            inta.agregarParcela(parcela1)
+            inta.agregarParcela(parcela2)
+            inta.agregarParcela(parcela3)
+
+            inta.promedioPlantas().shouldBe(2.0)
+        }
+
+
     }
 })
 

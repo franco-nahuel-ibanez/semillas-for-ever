@@ -15,9 +15,7 @@ abstract class Planta(var altura: Double, val anioSemilla: Int) {
     open fun daSemillas(): Boolean = esFuerte()
 
     abstract fun resultaIdeal(unaParcela: Parcela): Boolean
-
 }
-
 
 open class Menta(altura: Double, anioSemilla: Int): Planta(altura, anioSemilla){
 
